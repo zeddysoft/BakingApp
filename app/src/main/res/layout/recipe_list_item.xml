@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="111dp">
+
+        <ImageView
+            android:id="@+id/recipe_thumbnail"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/oct" />
+
+        <TextView
+            android:id="@+id/recipe_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/serving"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/serving"
+            android:layout_marginTop="20dp"
+            android:text="Yellow cake"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/serving"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="23dp"
+            android:layout_marginStart="23dp"
+            android:text="8 servings"
+            android:textColor="@color/white"
+            android:layout_alignBottom="@+id/recipe_thumbnail"
+            android:layout_toRightOf="@+id/recipe_thumbnail"
+            android:layout_toEndOf="@+id/recipe_thumbnail" />
+    </RelativeLayout>
+</LinearLayout>
