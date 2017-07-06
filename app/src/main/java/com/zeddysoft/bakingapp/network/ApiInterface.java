@@ -2,9 +2,10 @@ package com.zeddysoft.bakingapp.network;
 
 import com.zeddysoft.bakingapp.model.Recipe;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 
 /**
  * Created by azeez on 7/4/17.
@@ -13,5 +14,5 @@ import retrofit2.http.Path;
 public interface ApiInterface {
 
     @GET("/topher/2017/May/59121517_baking/baking.json")
-    Call<Recipe> getRecipies();
+    Call<List<Recipe>> getRecipies();
 }
