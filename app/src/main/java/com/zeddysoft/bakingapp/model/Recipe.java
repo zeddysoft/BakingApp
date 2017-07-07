@@ -1,5 +1,8 @@
 package com.zeddysoft.bakingapp.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -7,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by azeez on 7/4/17.
  */
 
-public class Recipe {
+public class Recipe implements Parcelable {
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -26,6 +29,25 @@ public class Recipe {
     @SerializedName("image")
     @Expose
     private String image;
+
+    protected Recipe(Parcel in) {
+        name = in.readString();
+        ingredients = in.createTypedArrayList(Ingredient.CREATOR);
+        steps = in.createTypedArrayList(Step.CREATOR);
+        image = in.readString();
+    }
+
+    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
+        @Override
+        public Recipe createFromParcel(Parcel in) {
+            return new Recipe(in);
+        }
+
+        @Override
+        public Recipe[] newArray(int size) {
+            return new Recipe[size];
+        }
+    };
 
     public Integer getId() {
         return id;
@@ -75,4 +97,16 @@ public class Recipe {
         this.image = image;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeTypedList(ingredients);
+        dest.writeTypedList(steps);
+        dest.writeString(image);
+    }
 }

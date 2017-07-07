@@ -1,11 +1,11 @@
-package com.zeddysoft.bakingapp.RecipeList;
+package com.zeddysoft.bakingapp.recipeList;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zeddysoft.bakingapp.R;
@@ -43,7 +43,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         Recipe recipe = recipes.get(position);
 
         holder.recipeName.setText(recipe.getName());
-        holder.serving.setText("fefe");
+        holder.serving.setText(recipe.getServings()+" Servings");
     }
 
     @Override
@@ -51,10 +51,10 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         return recipes.size();
     }
 
-    public class RecipeListViewHolder extends RecyclerView.ViewHolder {
+    public class RecipeListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.recipe_thumbnail)
-        ImageView recipeThumbnail;
+        @BindView(R.id.recipe_list_item_container)
+        LinearLayout container;
 
         @BindView(R.id.recipe_name)
         TextView recipeName;
@@ -65,6 +65,17 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         public RecipeListViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            container.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            ((RecipeClickListener) context).
+                    onRecipeClicked(recipes.get(getLayoutPosition()));
+        }
+    }
+
+    public interface RecipeClickListener{
+        void onRecipeClicked(Recipe recipe);
     }
 }

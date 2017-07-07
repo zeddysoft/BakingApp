@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/tabContainer"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    >
+
+    <!-- Master layout -->
+    <fragment
+        android:name="com.zeddysoft.bakingapp.recipeList.SingleRecipeListFragment"
+        android:layout_width="400dp"
+        android:layout_height="match_parent"/>
+
+    <View
+        android:layout_height="match_parent"
+        android:layout_width="1dp"
+        android:background="@android:color/darker_gray"
+        />
+
+    <!-- Detail -->
+    <FrameLayout
+        android:id="@+id/recipe_detail_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>
