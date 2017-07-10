@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".recipeDetail.RecipeDetailActivity"></activity>
+        <activity android:name=".recipeDetail.RecipeDetailActivity" />
+        <activity android:name=".recipeVideo.VideoPlayActivity"></activity>
     </application>
 
 </manifest>

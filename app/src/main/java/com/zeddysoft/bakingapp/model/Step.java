@@ -28,6 +28,8 @@ public class Step implements Parcelable {
     @Expose
     private String thumbnailURL;
 
+    public Step(){}
+
     protected Step(Parcel in) {
         id = in.readInt();
         shortDescription = in.readString();
@@ -95,11 +97,11 @@ public class Step implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(shortDescription);
         dest.writeString(description);
         dest.writeString(videoURL);
         dest.writeString(thumbnailURL);
-        dest.writeInt(id);
     }
 }
 

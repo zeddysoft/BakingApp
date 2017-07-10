@@ -57,7 +57,6 @@ public class RecipeDetailFragment extends Fragment {
 
         detailRV.setItemAnimator(new DefaultItemAnimator());
         adapter = new RecipeDetailAdapter(getActivity(), recipe.getSteps());
-        Log.d("Checking recipies", recipe.getSteps().size()+"");
         detailRV.setAdapter(adapter);
     }
 

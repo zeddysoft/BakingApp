@@ -27,14 +27,8 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
         ButterKnife.bind(this);
         fragmentManager = getSupportFragmentManager();
 
-        //show list fragment
-
         if (findViewById(R.id.tabContainer) != null) {
             mTwoPaneMode = true;
-
-//            Fragment recipeDetailFragment = new RecipeDetailFragment();
-//            fragmentManager.beginTransaction().
-//                    add(R.id.recipe_detail_container, recipeDetailFragment).commit();
 
         } else {
             mTwoPaneMode = false;
@@ -46,10 +40,9 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
     public void onRecipeClicked(Recipe recipe) {
 
         if (mTwoPaneMode) {
-            Fragment detailFragment = new RecipeDetailFragment();
-
             Bundle bundle = new Bundle();
             bundle.putParcelable(getString(R.string.recipe_key), recipe);
+            Fragment detailFragment = new RecipeDetailFragment();
             detailFragment.setArguments(bundle);
 
             fragmentManager.beginTransaction().

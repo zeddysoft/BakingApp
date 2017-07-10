@@ -53,8 +53,6 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
     public class RecipeListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.recipe_list_item_container)
-        LinearLayout container;
 
         @BindView(R.id.recipe_name)
         TextView recipeName;
@@ -65,7 +63,8 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         public RecipeListViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            container.setOnClickListener(this);
+            itemView.setClickable(true);
+            itemView.setOnClickListener(this);
         }
 
         @Override
