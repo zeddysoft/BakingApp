@@ -25,7 +25,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
         Recipe recipe = (Recipe) getIntent().getExtras().getParcelable(getString(R.string.recipe_key));
         Fragment detailFragment = new RecipeDetailFragment();
-        printStesp(recipe.getSteps());
+
         Bundle bundle = new Bundle();
         bundle.putParcelable(getString(R.string.recipe_key), recipe);
         detailFragment.setArguments(bundle);
@@ -34,9 +34,4 @@ public class RecipeDetailActivity extends AppCompatActivity {
                 replace(R.id.recipe_detail_container, detailFragment).commit();
     }
 
-    void printStesp(List<Step> steps){
-        for(Step s: steps){
-            Log.d("Step ", s.getDescription());
-        }
-    }
 }

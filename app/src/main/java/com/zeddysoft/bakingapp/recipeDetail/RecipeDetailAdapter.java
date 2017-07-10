@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.zeddysoft.bakingapp.R;
 import com.zeddysoft.bakingapp.model.Step;
+import com.zeddysoft.bakingapp.recipeList.RecipeListAdapter;
 
 import java.util.List;
 
@@ -31,7 +32,6 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
     public RecipeDetailAdapter(Context context, List<Step> steps) {
         this.context = context;
         this.steps = steps;
-        Log.d("Log steppps", steps.size()+"");
     }
 
     @Override
@@ -58,7 +58,7 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
         return steps.size();
     }
 
-    public class RecipeDetailViewHolder extends RecyclerView.ViewHolder {
+    public class RecipeDetailViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @BindView(R.id.step_thumbnail)
         ImageView stepThumbnail;
@@ -68,7 +68,19 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
 
         public RecipeDetailViewHolder(View itemView) {
             super(itemView);
+            itemView.setClickable(true);
+            itemView.setOnClickListener(this);
             ButterKnife.bind(this, itemView);
         }
+
+        @Override
+        public void onClick(View v) {
+            ((OnStepClickListener) context).
+                    onStepClick(getLayoutPosition());
+        }
+    }
+
+    public interface OnStepClickListener{
+        void onStepClick(int stepPosition);
     }
 }

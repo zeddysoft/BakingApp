@@ -1,5 +1,7 @@
 package com.zeddysoft.bakingapp.recipeDetail;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Movie;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,14 +17,17 @@ import android.widget.TextView;
 import com.zeddysoft.bakingapp.R;
 import com.zeddysoft.bakingapp.model.Ingredient;
 import com.zeddysoft.bakingapp.model.Recipe;
+import com.zeddysoft.bakingapp.model.Step;
 import com.zeddysoft.bakingapp.recipeList.RecipeListAdapter;
+import com.zeddysoft.bakingapp.recipeVideo.VideoPlayActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RecipeDetailFragment extends Fragment {
+public class RecipeDetailFragment extends Fragment implements RecipeDetailAdapter.OnStepClickListener{
 
     @BindView(R.id.ingredientTV)
     TextView ingredients;
@@ -31,6 +36,7 @@ public class RecipeDetailFragment extends Fragment {
     RecyclerView detailRV;
 
     private RecipeDetailAdapter adapter;
+    private RecipeDetailAdapter.OnStepClickListener stepClickListener;
 
     Recipe recipe;
 
@@ -48,6 +54,17 @@ public class RecipeDetailFragment extends Fragment {
         setIngredientsOnView();
         displaySteps();
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            stepClickListener = (RecipeDetailAdapter.OnStepClickListener) context;
+        }catch (ClassCastException exception){
+            throw new ClassCastException(context.toString() +
+                    "must implement RecipeclickListener");
+        }
     }
 
     private void displaySteps() {
@@ -75,5 +92,13 @@ public class RecipeDetailFragment extends Fragment {
 
         ingredients.setText(builder.toString());
 
+    }
+
+    @Override
+    public void onStepClick(int currentStepPosition) {
+        Intent intent = new Intent(getActivity(), VideoPlayActivity.class);
+        intent.putExtra(getString(R.string.recipe_key), recipe);
+        intent.putExtra(getString(R.string.position_key), currentStepPosition);
+        startActivity(intent);
     }
 }
