@@ -8,9 +8,6 @@ import android.util.Log;
 
 import com.zeddysoft.bakingapp.R;
 import com.zeddysoft.bakingapp.model.Recipe;
-import com.zeddysoft.bakingapp.model.Step;
-
-import java.util.List;
 
 import butterknife.ButterKnife;
 

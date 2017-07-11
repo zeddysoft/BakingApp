@@ -28,10 +28,12 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
 
     Context context;
     List<Step> steps;
+    OnStepClickListener stepClickListener;
 
-    public RecipeDetailAdapter(Context context, List<Step> steps) {
+    public RecipeDetailAdapter(Context context, List<Step> steps, OnStepClickListener stepClickListener) {
         this.context = context;
         this.steps = steps;
+        this.stepClickListener = stepClickListener;
     }
 
     @Override
@@ -58,7 +60,7 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
         return steps.size();
     }
 
-    public class RecipeDetailViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class RecipeDetailViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.step_thumbnail)
         ImageView stepThumbnail;
@@ -75,12 +77,11 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
 
         @Override
         public void onClick(View v) {
-            ((OnStepClickListener) context).
-                    onStepClick(getLayoutPosition());
+            stepClickListener.onStepClick(getLayoutPosition());
         }
     }
 
-    public interface OnStepClickListener{
+    public interface OnStepClickListener {
         void onStepClick(int stepPosition);
     }
 }

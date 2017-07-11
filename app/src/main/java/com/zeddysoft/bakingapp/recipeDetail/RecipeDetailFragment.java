@@ -56,16 +56,7 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailAdapte
         return view;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            stepClickListener = (RecipeDetailAdapter.OnStepClickListener) context;
-        }catch (ClassCastException exception){
-            throw new ClassCastException(context.toString() +
-                    "must implement RecipeclickListener");
-        }
-    }
+
 
     private void displaySteps() {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager
@@ -73,7 +64,7 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailAdapte
         detailRV.setLayoutManager(mLayoutManager);
 
         detailRV.setItemAnimator(new DefaultItemAnimator());
-        adapter = new RecipeDetailAdapter(getActivity(), recipe.getSteps());
+        adapter = new RecipeDetailAdapter(getActivity(), recipe.getSteps(), this);
         detailRV.setAdapter(adapter);
     }
 
