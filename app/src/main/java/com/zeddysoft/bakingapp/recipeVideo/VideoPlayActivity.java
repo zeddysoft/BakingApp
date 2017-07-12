@@ -1,42 +1,29 @@
 package com.zeddysoft.bakingapp.recipeVideo;
 
-import android.annotation.SuppressLint;
 import android.net.Uri;
-import android.os.Handler;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
-import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.TrackGroupArray;
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
-import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
-import com.google.android.exoplayer2.upstream.BandwidthMeter;
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.zeddysoft.bakingapp.R;
 import com.zeddysoft.bakingapp.model.Recipe;
 import com.zeddysoft.bakingapp.model.Step;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,6 +47,11 @@ public class VideoPlayActivity extends AppCompatActivity implements View.OnClick
     @BindView(R.id.next)
     TextView nextView;
 
+    @BindView(R.id.video_unavailable)
+    ImageView videoUnavailable;
+
+    Step singleStep;
+
     Recipe recipe;
     private int currentStepPosition;
     SimpleExoPlayer player;
@@ -67,6 +59,11 @@ public class VideoPlayActivity extends AppCompatActivity implements View.OnClick
     private boolean playWhenReady;
     private int currentWindow;
     private long playbackPosition;
+    private List<Step> steps;
+
+    private static String LOG = "bakingApp/Zeddysoft";
+    private String videoUrl;
+    private String description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,14 +72,13 @@ public class VideoPlayActivity extends AppCompatActivity implements View.OnClick
         ButterKnife.bind(this);
 
         recipe = getIntent().getExtras().getParcelable(getString(R.string.recipe_key));
+        steps = recipe.getSteps();
         currentStepPosition = getIntent().getExtras().getInt(getString(R.string.position_key));
         displayCurrentStepInstruction();
         setupClickListeners();
 
-        if (currentStepPosition == 0) {
+        if (currentStepPosition == 0 || (currentStepPosition == recipe.getSteps().size() -1)) {
             changeViewAppearance(previousView, false);
-        } else if (currentStepPosition == recipe.getSteps().size() - 1) {
-            changeViewAppearance(nextView, false);
         }
 
     }
@@ -99,7 +95,7 @@ public class VideoPlayActivity extends AppCompatActivity implements View.OnClick
         nextView.setOnClickListener(this);
     }
 
-    private void initializePlayer() {
+    private void initializePlayer(String videoUrl) {
         player = ExoPlayerFactory.newSimpleInstance(
                 new DefaultRenderersFactory(this),
                 new DefaultTrackSelector(), new DefaultLoadControl());
@@ -115,31 +111,10 @@ public class VideoPlayActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        if (Util.SDK_INT > 23) {
-            initializePlayer();
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-//        hideSystemUi();
-        if ((Util.SDK_INT <= 23 || player == null)) {
-            initializePlayer();
-        }
     }
 
-    @SuppressLint("InlinedApi")
-    private void hideSystemUi() {
-        playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-    }
 
     @Override
     public void onPause() {
@@ -178,7 +153,35 @@ public class VideoPlayActivity extends AppCompatActivity implements View.OnClick
         instructionView.setText(step.getDescription());
     }
 
-    void changeVideo(String videoUrl) {
+    void changeVideo() {
+        if(currentStepPosition == recipe.getSteps().size() -1){
+            nextView.setTextColor(ContextCompat.getColor(this, R.color.light_grey));
+        }else if(currentStepPosition == 0){
+            previousView.setTextColor(ContextCompat.getColor(this, R.color.light_grey));
+        }else{
+            nextView.setTextColor(ContextCompat.getColor(this, R.color.grey));
+            previousView.setTextColor(ContextCompat.getColor(this, R.color.grey));
+        }
+
+        singleStep = steps.get(currentStepPosition);
+        videoUrl = singleStep.getVideoURL();
+        description = singleStep.getDescription();
+
+        if(description != null){
+            instructionView.setText(description);
+        }
+
+        if ((!TextUtils.isEmpty(videoUrl))) {
+            videoUnavailable.setVisibility(View.INVISIBLE);
+            playerView.setVisibility(View.VISIBLE);
+            initializePlayer(videoUrl);
+        }else{
+
+                videoUnavailable.setVisibility(View.VISIBLE);
+                playerView.setVisibility(View.INVISIBLE);
+
+        }
+
         Uri uri = parse(videoUrl);
         MediaSource mediaSource = buildMediaSource(uri);
         player.prepare(mediaSource, true, false);
@@ -188,16 +191,10 @@ public class VideoPlayActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.previous:
-                Log.d("previous", "called");
-                if (currentStepPosition > 0) {
-                    --currentStepPosition;
-                } else {
-                    changeViewAppearance(previousView, false);
-                    currentStepPosition = -1;
-                }
 
-                if (currentStepPosition >= 0) {
-                    changeVideo(recipe.getSteps().get(currentStepPosition).getVideoURL());
+                if( currentStepPosition >= 0){
+                    --currentStepPosition;
+                    changeVideo();
                 }
 
                 break;
@@ -208,6 +205,10 @@ public class VideoPlayActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.next:
 
+                if( currentStepPosition >= 0 && currentStepPosition < steps.size() -1){
+                    ++currentStepPosition;
+                    changeVideo();
+                }
                 break;
         }
     }

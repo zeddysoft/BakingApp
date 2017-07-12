@@ -8,14 +8,34 @@
     android:orientation="vertical"
     tools:context="com.zeddysoft.bakingapp.recipeVideo.VideoPlayActivity">
 
-<com.google.android.exoplayer2.ui.SimpleExoPlayerView
-    android:id="@+id/videoView"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="3"
-    >
 
-</com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        >
+
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/videoView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+
+        </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+        <ImageView
+            android:id="@+id/video_unavailable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/video_unavailable"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            />
+
+
+        </FrameLayout>
+
+
 
     <TextView
         android:id="@+id/step_instruction"
