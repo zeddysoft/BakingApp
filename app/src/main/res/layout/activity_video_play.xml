@@ -4,103 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="5.8"
     android:orientation="vertical"
     tools:context="com.zeddysoft.bakingapp.recipeVideo.VideoPlayActivity">
 
 
     <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="3"
-        >
-
-        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-            android:id="@+id/videoView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            >
-
-        </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
-        <ImageView
-            android:id="@+id/video_unavailable"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@mipmap/video_unavailable"
-            android:scaleType="fitXY"
-            android:visibility="gone"
-            />
-
-
-        </FrameLayout>
-
-
-
-    <TextView
-        android:id="@+id/step_instruction"
+        android:id="@+id/video_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/white"
-        android:padding="10dp"
-        />
-
-    <RelativeLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.8"
-        android:orientation="horizontal"
-        android:padding="20dp">
-
-        <TextView
-            android:id="@+id/previous"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/back"
-            android:layout_alignBottom="@+id/back"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:text="PREVIOUS"
-            android:textColor="@color/grey" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="50dp"
-            android:layout_toRightOf="@id/previous"
-            android:background="@android:color/darker_gray" />
-
-        <TextView
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="BACK"
-            android:textColor="@color/grey" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="50dp"
-            android:layout_toRightOf="@id/back"
-            android:background="@android:color/darker_gray" />
-
-        <TextView
-            android:id="@+id/next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/back"
-            android:layout_alignBottom="@+id/back"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:text="NEXT"
-            android:textColor="@color/grey" />
-
-
-    </RelativeLayout>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

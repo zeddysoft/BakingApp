@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.zeddysoft.bakingapp.R;
 import com.zeddysoft.bakingapp.model.Recipe;
@@ -42,8 +41,6 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailAdapte
         displayDetailView();
         return view;
     }
-
-
 
     private void displayDetailView() {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager

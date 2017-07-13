@@ -72,7 +72,7 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return steps.size();
+        return steps.size() + 1;
     }
 
     public class RecipeDetailViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -91,7 +91,7 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         public void bindView(int position) {
-            Step step = steps.get(position);
+            Step step = steps.get(position -1);
 
             stepContent.setText(step.getShortDescription());
 
@@ -101,7 +101,8 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         @Override
         public void onClick(View v) {
-            stepClickListener.onStepClick(getLayoutPosition());
+            Log.d("Azeez", getLayoutPosition()+"");
+            stepClickListener.onStepClick(getLayoutPosition()-1);
         }
     }
 

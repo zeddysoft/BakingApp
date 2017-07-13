@@ -20,7 +20,13 @@ public class RecipeDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_detail);
         ButterKnife.bind(this);
 
-        Recipe recipe = (Recipe) getIntent().getExtras().getParcelable(getString(R.string.recipe_key));
+
+        Recipe recipe = getIntent().getExtras().getParcelable(getString(R.string.recipe_key));
+
+
+        if( getSupportActionBar() != null){
+            getSupportActionBar().setTitle(recipe.getName());
+        }
         Fragment detailFragment = new RecipeDetailFragment();
 
         Bundle bundle = new Bundle();
