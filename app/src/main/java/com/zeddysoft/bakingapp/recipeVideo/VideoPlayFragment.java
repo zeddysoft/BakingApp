@@ -92,8 +92,9 @@ public class VideoPlayFragment extends Fragment implements View.OnClickListener 
 
         int currentOrientation = getResources().getConfiguration().orientation;
         boolean isLandScape = currentOrientation == Configuration.ORIENTATION_LANDSCAPE;
+        boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
 
-        if (isLandScape) {
+        if (isLandScape  && !tabletSize ) {
             ((VideoPlayActivity) getActivity()).hideToolbar();
         }
         recipe = getArguments().getParcelable(getString(R.string.recipe_key));

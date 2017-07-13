@@ -1,24 +1,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-       xmlns:tools="http://schemas.android.com/tools"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:orientation="vertical"
-       android:layout_margin="5dp"
-       tools:context="com.zeddysoft.bakingapp.recipeList.RecipeListActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="com.zeddysoft.bakingapp.recipeList.RecipeListActivity"
+    >
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recipe_list"
+    <FrameLayout
+        android:id="@+id/single_list_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent"/>
 
-
-    <ProgressBar
-        android:id="@+id/recipe_list_progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-
-   </LinearLayout>
+</LinearLayout>
 
 

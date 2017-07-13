@@ -31,7 +31,6 @@ public class VideoPlayActivity extends AppCompatActivity {
         bundle.putInt(getString(R.string.position_key), currentStepPosition);
         videoPlayFragment.setArguments(bundle);
 
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().
                 replace(R.id.video_container, videoPlayFragment).commit();
@@ -43,5 +42,4 @@ public class VideoPlayActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
     }
-
 }

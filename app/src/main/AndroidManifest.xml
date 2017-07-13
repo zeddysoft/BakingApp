@@ -20,7 +20,17 @@
             </intent-filter>
         </activity>
         <activity android:name=".recipeDetail.RecipeDetailActivity" />
-        <activity android:name=".recipeVideo.VideoPlayActivity"></activity>
+        <activity android:name=".recipeVideo.VideoPlayActivity" />
+
+        <receiver android:name=".RecipeIngredientLisProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/recipe_ingredient_lis_provider_info" />
+        </receiver>
     </application>
 
 </manifest>

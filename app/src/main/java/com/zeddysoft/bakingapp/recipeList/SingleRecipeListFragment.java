@@ -2,9 +2,11 @@ package com.zeddysoft.bakingapp.recipeList;
 
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -74,8 +76,7 @@ public class SingleRecipeListFragment extends Fragment implements RecipeListAdap
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
                 progressBar.setVisibility(View.GONE);
 
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager
-                        (getActivity());
+                RecyclerView.LayoutManager mLayoutManager = getLayoutManager();
                 recipeList.setLayoutManager(mLayoutManager);
 
                 recipeList.setItemAnimator(new DefaultItemAnimator());
@@ -90,6 +91,20 @@ public class SingleRecipeListFragment extends Fragment implements RecipeListAdap
                 t.printStackTrace();
             }
         });
+
+    }
+
+    private RecyclerView.LayoutManager getLayoutManager(){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
+        boolean isTabletSize = getResources().getBoolean(R.bool.isTablet);
+        int currentOrientation = getResources().getConfiguration().orientation;
+        boolean isLandScape = currentOrientation == Configuration.ORIENTATION_LANDSCAPE;
+
+        if (isTabletSize || isLandScape) {
+            int columnSpan = 2;
+            return new GridLayoutManager(this.getActivity(), columnSpan);
+        }
+        return  linearLayoutManager;
 
     }
 

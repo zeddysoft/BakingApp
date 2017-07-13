@@ -1,5 +1,6 @@
 package com.zeddysoft.bakingapp.recipeDetail;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.zeddysoft.bakingapp.R;
 import com.zeddysoft.bakingapp.model.Recipe;
+import com.zeddysoft.bakingapp.recipeList.RecipeListAdapter;
 import com.zeddysoft.bakingapp.recipeVideo.VideoPlayActivity;
 
 import butterknife.BindView;
@@ -26,6 +28,7 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailAdapte
     private RecipeDetailAdapter.OnStepClickListener stepClickListener;
 
     Recipe recipe;
+    private RecipeDetailAdapter.OnStepClickListener mCallback;
 
     public RecipeDetailFragment() {
     }
@@ -42,6 +45,17 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailAdapte
         return view;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (RecipeDetailAdapter.OnStepClickListener) context;
+        }catch (ClassCastException exception){
+            throw new ClassCastException(context.toString() +
+                    "must implement RecipeclickListener");
+        }
+    }
+
     private void displayDetailView() {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager
                 (getActivity());
@@ -54,9 +68,6 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailAdapte
 
     @Override
     public void onStepClick(int currentStepPosition) {
-        Intent intent = new Intent(getActivity(), VideoPlayActivity.class);
-        intent.putExtra(getString(R.string.recipe_key), recipe);
-        intent.putExtra(getString(R.string.position_key), currentStepPosition);
-        startActivity(intent);
+        mCallback.onStepClick(currentStepPosition);
     }
 }
