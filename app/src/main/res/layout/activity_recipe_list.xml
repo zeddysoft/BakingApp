@@ -6,20 +6,19 @@
        android:layout_margin="5dp"
        tools:context="com.zeddysoft.bakingapp.recipeList.RecipeListActivity">
 
-      <TextView
-          android:id="@+id/ingredientTV"
-          android:layout_width="match_parent"
-          android:text="This is awesome"
-          android:textColor="@color/white"
-          android:textSize="16sp"
-          android:padding="10dp"
-          android:background="@color/blue"
-          android:layout_height="wrap_content" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recipe_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
-      <android.support.v7.widget.RecyclerView
-          android:id="@+id/fragment_recipe_detail_RV"
-          android:layout_width="match_parent"
-          android:layout_marginTop="5dp"
-          android:layout_height="wrap_content"/>
+
+    <ProgressBar
+        android:id="@+id/recipe_list_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
    </LinearLayout>
+
+

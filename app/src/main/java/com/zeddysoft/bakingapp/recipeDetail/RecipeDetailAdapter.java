@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.zeddysoft.bakingapp.R;
+import com.zeddysoft.bakingapp.model.Ingredient;
+import com.zeddysoft.bakingapp.model.Recipe;
 import com.zeddysoft.bakingapp.model.Step;
 import com.zeddysoft.bakingapp.recipeList.RecipeListAdapter;
 
@@ -24,36 +26,49 @@ import butterknife.ButterKnife;
  * Created by Azeez.Taiwo on 7/7/2017.
  */
 
-public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapter.RecipeDetailViewHolder> {
+public class RecipeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context context;
     List<Step> steps;
     OnStepClickListener stepClickListener;
+    private Recipe recipe;
 
-    public RecipeDetailAdapter(Context context, List<Step> steps, OnStepClickListener stepClickListener) {
+    private int INGREDIENT_DEFAULT_POSITION = 0;
+
+    public RecipeDetailAdapter(Context context, Recipe recipe, OnStepClickListener stepClickListener) {
         this.context = context;
-        this.steps = steps;
+        this.recipe = recipe;
+        this.steps = recipe.getSteps();
         this.stepClickListener = stepClickListener;
     }
 
     @Override
-    public RecipeDetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.step_list_item, parent, false);
-
-        return new RecipeDetailAdapter.RecipeDetailViewHolder(itemView);
+    public int getItemViewType(int position) {
+        return position;
     }
 
     @Override
-    public void onBindViewHolder(RecipeDetailViewHolder holder, int position) {
-        Step step = steps.get(position);
-
-        holder.stepContent.setText(step.getShortDescription());
-
-        if (!TextUtils.isEmpty(step.getThumbnailURL()))
-            Picasso.with(context).load(step.getThumbnailURL()).into(holder.stepThumbnail);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+        if (viewType == INGREDIENT_DEFAULT_POSITION) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ingredient_list_item, parent, false);
+            return new IngredientViewHolder(view);
+        } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.step_list_item, parent, false);
+            return new RecipeDetailViewHolder(view);
+        }
     }
 
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+        if (position == INGREDIENT_DEFAULT_POSITION) {
+            ((IngredientViewHolder) holder).bindView();
+        } else {
+            ((RecipeDetailViewHolder) holder).bindView(position);
+        }
+
+    }
 
     @Override
     public int getItemCount() {
@@ -75,10 +90,48 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
             ButterKnife.bind(this, itemView);
         }
 
+        public void bindView(int position) {
+            Step step = steps.get(position);
+
+            stepContent.setText(step.getShortDescription());
+
+            if (!TextUtils.isEmpty(step.getThumbnailURL()))
+                Picasso.with(context).load(step.getThumbnailURL()).into(stepThumbnail);
+        }
+
         @Override
         public void onClick(View v) {
             stepClickListener.onStepClick(getLayoutPosition());
         }
+    }
+
+    public class IngredientViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.ingredientTV)
+        TextView ingredientView;
+
+        public IngredientViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        public void bindView(){
+
+            StringBuilder builder = new StringBuilder();
+            List<Ingredient> ingredientList = recipe.getIngredients();
+            builder.append("Ingredients lists \n\n");
+
+            for (Ingredient singleIngredient : ingredientList) {
+                builder.append("\t"+singleIngredient.getIngredient()
+                        + " (" + singleIngredient.getQuantity() + " "
+                        + singleIngredient.getMeasure() + ")\n");
+            }
+            builder.append("\n");
+
+            ingredientView.setText(builder.toString());
+
+        }
+
     }
 
     public interface OnStepClickListener {
