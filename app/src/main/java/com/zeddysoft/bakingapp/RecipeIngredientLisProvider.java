@@ -11,15 +11,19 @@ import android.widget.RemoteViews;
  */
 public class RecipeIngredientLisProvider extends AppWidgetProvider {
 
+    private final static String NO_DESIRED_RECIPE_INGREDIENT = "You have no desired recipe ingredient yet!";
+
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.ingredient_key), Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences
+                (context.getString(R.string.ingredient_key), Context.MODE_PRIVATE);
 
+        String desiredRecipeIngredient = sharedPreferences.getString(context.getString(R.string.ingredient_key),
+                NO_DESIRED_RECIPE_INGREDIENT);
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_ingredient_lis_provider);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
+        views.setTextViewText(R.id.appwidget_text, desiredRecipeIngredient);
 
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
