@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -77,6 +78,18 @@ public class VideoPlayFragment extends Fragment implements View.OnClickListener 
 
     public VideoPlayFragment() {
     }
+
+
+    public static VideoPlayFragment newInstance(String recipeKey, Parcelable recipe,
+                                       String currentPositionKey, int currentStepPosition) {
+        VideoPlayFragment f = new VideoPlayFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(recipeKey, recipe);
+        args.putInt(currentPositionKey, currentStepPosition);
+        f.setArguments(args);
+        return f;
+    }
+
 
     @Override
     public void onAttach(Context context) {

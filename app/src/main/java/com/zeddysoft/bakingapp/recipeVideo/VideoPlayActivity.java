@@ -24,12 +24,11 @@ public class VideoPlayActivity extends AppCompatActivity {
         Recipe recipe = getIntent().getExtras().getParcelable(getString(R.string.recipe_key));
         int currentStepPosition = getIntent().getExtras().getInt(getString(R.string.position_key));
 
-        VideoPlayFragment videoPlayFragment = new VideoPlayFragment();
+        VideoPlayFragment videoPlayFragment = VideoPlayFragment.newInstance(
+                getString(R.string.recipe_key), recipe,
+                getString(R.string.position_key), currentStepPosition
+        );
 
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(getString(R.string.recipe_key), recipe);
-        bundle.putInt(getString(R.string.position_key), currentStepPosition);
-        videoPlayFragment.setArguments(bundle);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().

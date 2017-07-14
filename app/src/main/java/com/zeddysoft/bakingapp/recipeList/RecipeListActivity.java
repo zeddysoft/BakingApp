@@ -20,11 +20,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.zeddysoft.bakingapp.R;
-import com.zeddysoft.bakingapp.idlingResource.BakingIdlingResource;
 import com.zeddysoft.bakingapp.model.Ingredient;
 import com.zeddysoft.bakingapp.model.Recipe;
 import com.zeddysoft.bakingapp.network.ApiClient;
@@ -32,7 +30,6 @@ import com.zeddysoft.bakingapp.network.ApiInterface;
 import com.zeddysoft.bakingapp.recipeDetail.RecipeDetailActivity;
 import com.zeddysoft.bakingapp.util.NetworkUtils;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
