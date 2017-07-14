@@ -2,8 +2,8 @@
     <string name="app_name">BakingApp</string>
     <string name="title_activity_recipe_detail">RecipeDetailActivity</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="recipe_key">recipe.key</string>
+    <string name="no_network_message">Your phone is currently not connected to the internet, please connect and try again</string>
     <string name="position_key">position.key</string>
     <string name="ingredient_key">ingredient.key</string>
     <bool name="isTablet">false</bool>
