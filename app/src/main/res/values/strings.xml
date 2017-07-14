@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">BakingApp</string>
     <string name="title_activity_recipe_detail">RecipeDetailActivity</string>
-
+    <string name="recipe_list_state">recipe.list</string>
     <string name="recipe_key">recipe.key</string>
     <string name="no_network_message">Your phone is currently not connected to the internet, please connect and try again</string>
     <string name="position_key">position.key</string>
@@ -10,5 +10,6 @@
     <string name="title_activity_recipe_detail_tab">RecipeDetailTabActivity</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="loading_error">Unexpected error has occured</string>
 
 </resources>

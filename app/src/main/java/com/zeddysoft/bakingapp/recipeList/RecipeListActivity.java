@@ -31,6 +31,8 @@ import com.zeddysoft.bakingapp.network.ApiInterface;
 import com.zeddysoft.bakingapp.recipeDetail.RecipeDetailActivity;
 import com.zeddysoft.bakingapp.util.NetworkUtils;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -48,46 +50,58 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeListA
     ProgressBar progressBar;
 
     private RecipeListAdapter recipeListAdapter;
+    private ArrayList<Recipe> recipies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_list);
         ButterKnife.bind(this);
-        showRecipeList();
+        if (savedInstanceState != null && savedInstanceState.containsKey(getString(R.string.recipe_list_state))) {
+            progressBar.setVisibility(View.GONE);
+            recipies = savedInstanceState.getParcelableArrayList(getString(R.string.recipe_list_state));
+            showRecipeList();
+        } else {
+            showRecipeList();
+        }
     }
 
     private void showRecipeList() {
+
         if (isPhoneConnectedToInternet()) {
             ApiInterface apiService =
                     ApiClient.getClient().create(ApiInterface.class);
 
-            final Call<List<Recipe>> recipeCall = apiService.getRecipies();
+            final Call<ArrayList<Recipe>> recipeCall = apiService.getRecipies();
 
-            recipeCall.enqueue(new Callback<List<Recipe>>() {
+            recipeCall.enqueue(new Callback<ArrayList<Recipe>>() {
                 @Override
-                public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
+                public void onResponse(Call<ArrayList<Recipe>> call, Response<ArrayList<Recipe>> response) {
                     progressBar.setVisibility(View.GONE);
 
                     RecyclerView.LayoutManager mLayoutManager = getLayoutManager();
                     recipeList.setLayoutManager(mLayoutManager);
 
-                    recipeList.setItemAnimator(new DefaultItemAnimator());
-                    recipeListAdapter = new RecipeListAdapter(RecipeListActivity.this, response.body());
-                    recipeList.setAdapter(recipeListAdapter);
+                    recipies = response.body();
+                    loadRecipeToView();
 
                 }
 
                 @Override
-                public void onFailure(Call<List<Recipe>> call, Throwable t) {
+                public void onFailure(Call<ArrayList<Recipe>> call, Throwable t) {
                     progressBar.setVisibility(View.GONE);
-                    t.printStackTrace();
+                    showMessage(R.string.loading_error);
                 }
             });
         } else {
             showMessage(R.string.no_network_message);
         }
+    }
 
+    private void loadRecipeToView() {
+        recipeList.setItemAnimator(new DefaultItemAnimator());
+        recipeListAdapter = new RecipeListAdapter(RecipeListActivity.this, recipies);
+        recipeList.setAdapter(recipeListAdapter);
     }
 
     private void showMessage(int messageId) {
@@ -102,6 +116,12 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeListA
                 });
         alertDialog.setCancelable(false);
         alertDialog.show();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(getString(R.string.recipe_list_state), recipies);
+        super.onSaveInstanceState(outState);
     }
 
     public boolean isPhoneConnectedToInternet() {
@@ -139,7 +159,7 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeListA
         return builder.toString();
     }
 
-    private RecyclerView.LayoutManager getLayoutManager(){
+    private RecyclerView.LayoutManager getLayoutManager() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         boolean isTabletSize = getResources().getBoolean(R.bool.isTablet);
         int currentOrientation = getResources().getConfiguration().orientation;
@@ -149,10 +169,11 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeListA
             int columnSpan = 2;
             return new GridLayoutManager(this, columnSpan);
         }
-        return  linearLayoutManager;
+        return linearLayoutManager;
 
     }
-    public boolean hasDataFinishedLoading(){
+
+    public boolean hasDataFinishedLoading() {
         return recipeListAdapter != null;
     }
 }
